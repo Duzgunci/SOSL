@@ -1,0 +1,22 @@
+FIND {United} IN NAME FIELDS
+FIND {United} IN NAME FIELDS RETURNING Account (Name, Industry), Contact(Name, Phone), Opportunity(Name, Amount)
+
+Debug:
+list<list<sObject>> result = [FIND 'United' IN NAME FIELDS RETURNING Account (Name, Industry), Contact(Name, Phone), Opportunity(Name, Amount)];
+system.debug(result);
+
+List<Account> accs = (List<Account>) result[0];
+system.debug(accs);
+
+List<Contact> cons = (List<Contact>)result[1];
+system.debug(cons);
+
+List<Opportunity> opps = (List <opportunity>)result[2];
+system.debug(opps);
+
+list <Account> newList = new list<Account>();
+for (Account a : accs){
+    a.Description= 'SOSL';
+    newList.add(a);  
+}
+update newList;
